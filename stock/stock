@@ -1,0 +1,32 @@
+#!/bin/bash
+
+secid=$BLOCK_INSTANCE
+
+val=$(
+    curl "https://push2.eastmoney.com/api/qt/ulist/get?fltt=1&invt=2&fields=f14%2Cf12%2Cf13%2Cf1%2Cf2%2Cf4%2Cf3%2Cf152&secids=$secid&ut=fa5fd1943c7b386f172d6893dbfba10b&pn=1&np=1&pz=20&dect=1&wbp2u=%7C0%7C0%7C0%7Cweb" \
+        -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0' \
+        -H 'Referer: https://quote.eastmoney.com/ZS000001.html' \
+        -H 'Sec-Fetch-Dest: script' \
+        -H 'Sec-Fetch-Mode: no-cors' \
+        -H 'Sec-Fetch-Site: same-site' \
+        -H 'Pragma: no-cache' \
+        -H 'Cache-Control: no-cache' \
+        -H 'TE: trailers'
+)
+
+name=$(echo "$val" | jq -r '.data.diff[0].f14')
+value=$(echo "$val" | jq -r '.data.diff[0].f2')
+value=$(echo "scale=2; $value / 100" | bc)
+
+pct=$(echo "$val" | jq -r '.data.diff[0].f3')
+pct=$(echo "scale=2; $pct / 100" | bc)
+
+if (( $(echo "$pct < -1" | bc -l) )); then
+    color="#50fa7b"
+elif (( $(echo "$pct > 1" | bc -l) )); then
+    color="#ff8585"
+else
+    color="#ffb86c"
+fi
+
+echo "<span foreground=\"$color\">$name:$value($pct%)</span>"

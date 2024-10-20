@@ -29,13 +29,19 @@ command=$HOME/.config/i3blocks/$BLOCK_NAME/$BLOCK_NAME
 separator_block_width=15
 markup=none
 
+# Stock
+[stock]
+interval=60
+markup=pango
+instance=1.000001
 # Volume indicator
 #
 # The first parameter sets the step (and units to display)
 # The second parameter overrides the mixer selection
 # See the script for details.
 [volume]
-label=VOL
+# label=VOL
+label=󰕾
 color=#8be9fd
 # label=󰕾
 #instance=Master
@@ -48,9 +54,9 @@ signal=10
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
 [cpu_usage]
-label=CPU
+# label=CPU
 # color=#ff93d0
-# label=
+label=󰍛
 interval=10
 # separator=false
 # min_width=CPU 100.00%
@@ -59,10 +65,10 @@ interval=10
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-label=MEM
+# label=MEM
+label=
 color=#f1fa8c
-# label=󰍛
-# separator=false
+command=PERCENT=false $HOME/.config/i3blocks/memory/memory
 interval=30
 
 # [memory]
@@ -78,10 +84,17 @@ interval=30
 # (defaults to 10 for 10%).
 [disk]
 # label=HOME
+# label=/
+label=
 color=#8be9fd
-label=/
 #instance=/mnt/data
 interval=30
+
+[temperature]
+# label=TEMP
+label=󰌽
+interval=10
+color=#8be9fd
 
 # Network interface monitoring
 #
@@ -103,7 +116,7 @@ separator=false
 [bandwidth]
 #instance=eth0
 interval=5
-color=#aaaaaa
+color=#ffa3d0
 
 
 #[load_average]
@@ -123,7 +136,6 @@ color=#aaaaaa
 [time]
 command=date '+%Y-%m-%d %H:%M'
 interval=20
-color=#ffa3d0
 
 # Generic media player support
 #
